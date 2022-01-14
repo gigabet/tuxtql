@@ -18,16 +18,24 @@
     "@mui/material": "^5.2.8",
     "@types/react-dom": "^17.0.11",
     "next": "^12.0.8",
+    "next-transpile-modules": "^9.0.0",
     "react": "rc",
     "react-dom": "rc"
   },
   "devDependencies": {
     "@types/react": "^17.0.38",
+    "babel-plugin-direct-import": "^1.0.0",
     "eslint": "^8.6.0",
     "eslint-config-next": "^12.0.8",
     "prettier": "^2.5.1",
     "tslib": "^2.3.1",
     "typescript": "^4.5.4"
   },
+  "browserslist": [
+    ">= 1%",
+    "not ie 11",
+    "not dead",
+    "not op_mini all"
+  ],
   "packageManager": "yarn@3.1.1"
 }
