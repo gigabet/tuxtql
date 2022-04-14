@@ -1,9 +1,16 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import createEmotionServer from '@emotion/server/create-instance'
 import { theme, createEmotionCache } from '../context/theme'
+import { createRelayDocument, RelayDocument } from 'relay-nextjs/document'
 
-export default class MyDocument extends Document {
+interface DocumentProps {
+  relayDocument: RelayDocument
+}
+
+export default class MyDocument extends Document<DocumentProps> {
   render() {
+    const { relayDocument } = this.props
+
     return (
       <Html lang='en'>
         <Head>
@@ -16,6 +23,7 @@ export default class MyDocument extends Document {
           />
           {/* Inject MUI styles first to match with the prepend: true configuration. */}
           {(this.props as any).emotionStyleTags}
+          <relayDocument.Script />
         </Head>
         <body>
           <Main />
@@ -51,6 +59,7 @@ MyDocument.getInitialProps = async ctx => {
   // 3. app.render
   // 4. page.render
 
+  const relayDocument = createRelayDocument()
   const originalRenderPage = ctx.renderPage
 
   // You can consider sharing the same emotion cache between all the SSR requests to speed up performance.
@@ -61,9 +70,9 @@ MyDocument.getInitialProps = async ctx => {
   ctx.renderPage = () =>
     originalRenderPage({
       enhanceApp: (App: any) =>
-        function EnhanceApp(props) {
+        relayDocument.enhance(function EnhanceApp(props) {
           return <App emotionCache={cache} {...props} />
-        },
+        }),
     })
 
   const initialProps = await Document.getInitialProps(ctx)
@@ -82,5 +91,6 @@ MyDocument.getInitialProps = async ctx => {
   return {
     ...initialProps,
     emotionStyleTags,
+    relayDocument,
   }
 }

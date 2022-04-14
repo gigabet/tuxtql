@@ -3,8 +3,10 @@
   "version": "5.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "relay": "relay-compiler",
+    "watch": "relay-compiler --watch",
+    "dev": "yarn relay && next dev",
+    "build": "yarn relay && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -16,19 +18,29 @@
     "@mui/icons-material": "^5.6.1",
     "@mui/material": "^5.6.1",
     "clsx": "^1.1.1",
+    "graphql-ws": "^5.7.0",
     "next": "^12.1.5",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "react-relay": "^13.2.0",
+    "relay-nextjs": "^0.8.0",
+    "relay-runtime": "^13.2.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.24",
     "@types/react": "^18.0.4",
     "@types/react-dom": "^18.0.0",
+    "@types/react-relay": "^13",
+    "@types/relay-runtime": "^13",
+    "@types/ws": "^8",
     "eslint": "^8.13.0",
     "eslint-config-next": "^12.1.5",
+    "graphql": "^16.3.0",
     "prettier": "^2.6.2",
+    "relay-compiler": "^13.2.0",
     "tslib": "^2.3.1",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "ws": "^8.5.0"
   },
   "browserslist": [
     ">= 1%",
@@ -36,5 +48,16 @@
     "not dead",
     "not op_mini all"
   ],
+  "relay": {
+    "src": "./",
+    "schema": "./schema/schema.graphql",
+    "artifactDirectory": "./__generated__",
+    "excludes": [
+      "**/node_modules/**",
+      "**/__mocks__/**",
+      "**/__generated__/**"
+    ],
+    "language": "typescript"
+  },
   "packageManager": "yarn@3.2.0"
 }
